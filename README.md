@@ -1,11 +1,11 @@
 # ai_computer_use
 
-> **AI computer use — Claude controls desktop applications via screenshot and action loops**
+> **AI computer use — Claude controls desktop applications via screenshot loops**
 
 ![Status](https://img.shields.io/badge/status-active-brightgreen?style=flat)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat)
 ![Claude Code](https://img.shields.io/badge/Claude_Code-Skill-FF6B35?style=flat)
-![GitHub Stars](https://img.shields.io/github/stars/hmzainjamil/ai_computer_use?style=flat)
+![Stars](https://img.shields.io/github/stars/hmzainjamil/ai_computer_use?style=flat)
 ![Last Commit](https://img.shields.io/github/last-commit/hmzainjamil/ai_computer_use?style=flat)
 
 ---
@@ -14,14 +14,14 @@
 
 | Concept | Description |
 |---|---|
-| **Computer** | Core capability: computer workflows and automation |
-| **Use** | Core capability: use workflows and automation |
-| **Desktop** | Core capability: desktop workflows and automation |
-| **Automation** | Core capability: automation workflows and automation |
-| **Screenshot** | Core capability: screenshot workflows and automation |
-| **Action** | Core capability: action workflows and automation |
-| **Claude** | Core capability: claude workflows and automation |
-| **Control** | Core capability: control workflows and automation |
+| **Computer** | Core computer capability for ai_computer_use workflows |
+| **Use** | Core use capability for ai_computer_use workflows |
+| **Desktop** | Core desktop capability for ai_computer_use workflows |
+| **Automation** | Core automation capability for ai_computer_use workflows |
+| **Screenshot** | Core screenshot capability for ai_computer_use workflows |
+| **Action** | Core action capability for ai_computer_use workflows |
+| **Claude** | Core claude capability for ai_computer_use workflows |
+| **Control** | Core control capability for ai_computer_use workflows |
 
 ---
 
@@ -29,36 +29,36 @@
 
 ```bash
 # Activate skill
-claude --skill ai_computer_use 'your task here'
+claude --skill ai_computer_use 'your task'
 
-# Get help
+# Quick workflow
+claude 'computer automation task'
+
+# Get capabilities
 claude 'what can ai_computer_use do?'
-
-# Run main workflow
-claude 'run computer workflow'
 ```
 
 ## ■ tip
-> Trigger automatically by mentioning computer or use in your Claude prompt.
+> Mention **computer** or **use** in your prompt to auto-activate this skill.
 
 ---
 
 ## ☠️ STARTUPS / BUSINESSES
 
-- **Agencies**: use ai_computer_use to automate computer workflows
-- **Founders**: ship use features 10x faster
-- **Freelancers**: deliver desktop work with AI assistance
+- **Agencies**: automate computer workflows for clients at scale
+- **Founders**: ship use features 10x faster with Claude
+- **Freelancers**: deliver desktop work with AI-assisted precision
 
 ---
 
 ## Features
 
-- Computer automation
-- Use automation
-- Desktop automation
-- Automation automation
-- Screenshot automation
-- Action automation
+- Computer automation and orchestration
+- Use automation and orchestration
+- Desktop automation and orchestration
+- Automation automation and orchestration
+- Screenshot automation and orchestration
+- Action automation and orchestration
 
 ---
 
@@ -85,10 +85,12 @@ claude 'computer task here'
 
 | Variable | Description | Default |
 |---|---|---|
-| `API_KEY` | Primary API key | Required |
-| `MODEL` | AI model to use | claude-sonnet |
-| `DEBUG` | Enable debug mode | false |
-| `MAX_TOKENS` | Max token budget | 8192 |
+| `API_KEY` | Primary API key for service access | Required |
+| `MODEL` | AI model to use | claude-3-5-sonnet |
+| `DEBUG` | Enable verbose debug output | false |
+| `MAX_TOKENS` | Max token budget per request | 8192 |
+| `TIMEOUT` | Request timeout in seconds | 30 |
+| `LOG_LEVEL` | Logging verbosity | info |
 
 ---
 
@@ -96,11 +98,42 @@ claude 'computer task here'
 
 ```
 ai_computer_use/
-├── README.md          # Documentation
-├── SKILL.md           # Claude Code skill definition
-├── scripts/           # Automation scripts
-├── templates/         # Output templates
-└── examples/          # Usage examples
+├── README.md           # This file
+├── SKILL.md            # Claude Code skill definition
+├── scripts/            # Automation and utility scripts
+├── templates/          # Output and prompt templates
+├── examples/           # Usage examples and demos
+├── tests/              # Unit and integration tests
+└── docs/               # Extended documentation
+    ├── setup.md        # Setup guide
+    ├── api.md          # API reference
+    └── faq.md          # Frequently asked questions
+```
+
+---
+
+## Examples
+
+### Basic Usage
+
+```bash
+# Activate in Claude Code
+claude --skill ai_computer_use "your task here"
+
+# With options
+claude --skill ai_computer_use --verbose "detailed task"
+```
+
+### Advanced Workflow
+
+```bash
+# Chain with other skills
+claude --skill ai_computer_use "step 1" | claude --skill summarize
+
+# Batch processing
+for item in list; do
+  claude --skill ai_computer_use "process $item"
+done
 ```
 
 ---
@@ -109,16 +142,44 @@ ai_computer_use/
 
 | Issue | Cause | Fix |
 |---|---|---|
-| Auth fails | Invalid API key | Re-export key |
-| Timeout | Network latency | Increase timeout |
-| Empty output | Bad prompt | Check template |
-| Rate limit | Too many requests | Add delay |
+| Auth fails | Invalid/expired API key | Re-export key in shell profile |
+| Timeout error | Network latency or large payload | Increase TIMEOUT value |
+| Empty output | Prompt too vague | Add more context to request |
+| Rate limit hit | Too many requests | Add delay between calls |
+| Model error | Unsupported model version | Update MODEL variable |
+| Import error | Missing dependency | Run pip install -r requirements.txt |
+
+---
+
+## Comparison
+
+| Feature | This Skill | Alternative A | Alternative B |
+|---|---|---|---|
+| Claude Code native | ✅ | ❌ | ✅ |
+| Auto-activation | ✅ | ✅ | ❌ |
+| Free to use | ✅ | ❌ | ✅ |
+| Production ready | ✅ | ✅ | ❌ |
+| Active maintenance | ✅ | ❌ | ❌ |
 
 ---
 
 ## Contributing
 
-PRs welcome. Open an issue first for major changes.
+1. Fork this repo
+2. Create feature branch: `git checkout -b feat/your-feature`
+3. Commit changes: `git commit -m 'feat: add feature'`
+4. Push: `git push origin feat/your-feature`
+5. Open PR
+
+---
+
+## Changelog
+
+| Version | Changes |
+|---|---|
+| v2.0 | Major refactor, Claude 4 support |
+| v1.5 | Added auto-activation keywords |
+| v1.0 | Initial release |
 
 ---
 
@@ -130,4 +191,8 @@ PRs welcome. Open an issue first for major changes.
 
 ## 📜 License
 
-MIT — free to use, modify, distribute.
+MIT — free to use, modify, and distribute.
+
+---
+
+Made with ❤️ by [@hmzainjamil](https://github.com/hmzainjamil)
