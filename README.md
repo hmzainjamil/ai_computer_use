@@ -1,5 +1,9 @@
 # ai_computer_use
 
+<!-- HMZ PORTFOLIO STANDARD -->
+> Portfolio status: active · Visibility: public · Source of truth: current repository source.
+<!-- END HMZ PORTFOLIO STANDARD -->
+
 > **Claude drives your Mac and iPhone** - Streamlit app that hands Claude the keyboard and mouse - controls macOS apps, iOS Simulator, and real iPhones via accessibility APIs and screen capture.
 
 <p align="center">
