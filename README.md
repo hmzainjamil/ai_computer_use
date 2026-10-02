@@ -49,7 +49,3 @@ No install or launch command is asserted here because the repository metadata do
 ## Documentation
 
 See [docs/README.md](docs/README.md) for source map and verification boundaries.
-
-## License
-
-See [LICENSE](LICENSE) for the repository's license terms.
