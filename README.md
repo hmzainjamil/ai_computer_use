@@ -1,157 +1,55 @@
-# ai_computer_use
+# Mac and iOS Computer Use
 
-> **Claude drives your Mac and iPhone** - Streamlit app that hands Claude the keyboard and mouse - controls macOS apps, iOS Simulator, and real iPhones via accessibility APIs and screen capture.
+A Python application that connects a Streamlit interface to Anthropic computer-use tools for interacting with macOS and iOS devices. It can send inputs to real applications and devices; those actions can change files, settings, messages, or other user data.
 
-<p align="center"><a href="https://github.com/hmzainjamil/ai_computer_use">Repository</a> · <a href="https://github.com/hmzainjamil/ai_computer_use/commits/main">Commits</a> · <a href="https://github.com/hmzainjamil/ai_computer_use/issues">Issues</a></p>
-<p align="center"><img alt="Documentation" src="https://img.shields.io/badge/documentation-deep%20editorial-lightgrey"> <img alt="Lifecycle" src="https://img.shields.io/badge/lifecycle-active-success"></p>
+## Current scope
 
-<!-- HMZ DEEP README v1 -->
-
-## At a glance
-
-| Field | Current state |
+| Area | Evidence in this repository |
 |---|---|
-| Repository | ai_computer_use |
-| Visibility | Public |
-| Lifecycle | Active |
-| Evidence basis | Current repository documentation and source-visible material |
+| Interface | Streamlit UI in `src/ui/streamlit_app.py` |
+| Model API | Anthropic client and tool-use loop in `src/api/anthropic.py` |
+| macOS controls | UI automation in `src/tools/mac_tool.py` |
+| iOS controls | Appium-based actions in `src/tools/ios_tool.py` and device setup in `src/tools/ios_connection.py` |
+| Shell, filesystem, network | System tool in `src/tools/system_tool.py` |
+| Configuration | `src/config.py`, with example values in `.env.example` |
+| Requirements | Python 3.12+ in `pyproject.toml` |
+| Tests | `tests/test_core.py` |
 
-## Why this exists
+This README does not claim that all actions are safe or that every device configuration works. In particular, the current macOS safety helper contains an empty sensitive-region list, and the iOS swipe branch is marked unimplemented. Review the relevant source before enabling actions.
 
-**Claude drives your Mac and iPhone** - Streamlit app that hands Claude the keyboard and mouse - controls macOS apps, iOS Simulator, and real iPhones via accessibility APIs and screen capture.
+## Configuration
 
-The README documents computer-use capabilities and keeps automation authority, credentials, side effects, and external application behavior explicit.
+Copy `.env.example` to a local `.env` and set values for your own environment. The current example names:
 
-## CONCEPTS
+| Variable | Purpose |
+|---|---|
+| `ANTHROPIC_API_KEY` | Anthropic API credential |
+| `API_PROVIDER` | Provider selector; source currently defines Anthropic, Bedrock, and Vertex |
+| `SCREEN_WIDTH`, `SCREEN_HEIGHT` | Screen dimensions |
+| `IOS_DEVICE_ID` | Optional iOS device identifier |
 
-| Concept | Location | Description |
-|---|---|---|
-| **Streamlit UI** | `src/ui/streamlit_app.py` | Chat front-end at :8501 - [Source](https://github.com/hmzainjamil/ai_computer_use/blob/main/src/ui/streamlit_app.py) |
-| **Anthropic client** | `src/api/anthropic.py` | Streaming + tool-use loop - [Source](https://github.com/hmzainjamil/ai_computer_use/blob/main/src/api/anthropic.py) |
-| **Mac tool** | `src/tools/mac_tool.py` | Drives macOS via accessibility - [Source](https://github.com/hmzainjamil/ai_computer_use/blob/main/src/tools/mac_tool.py) |
-| **iOS tool** | `src/tools/ios_tool.py` | Drives iPhone via USB/wifi - [Source](https://github.com/hmzainjamil/ai_computer_use/blob/main/src/tools/ios_tool.py) |
-| **Mac safety guard** | `src/tools/mac_safety.py` | Hard-blocks destructive ops - [Source](https://github.com/hmzainjamil/ai_computer_use/blob/main/src/tools/mac_safety.py) |
-| **Device manager** | `src/tools/device_manager.py` | Real + simulator iOS device routing - [Source](https://github.com/hmzainjamil/ai_computer_use/blob/main/src/tools/device_manager.py) |
-| **System tool** | `src/tools/system_tool.py` | Shell, fs, network primitives - [Source](https://github.com/hmzainjamil/ai_computer_use/blob/main/src/tools/system_tool.py) |
-| **Tool collection** | `src/tools/collection.py` | Tool registry exposed to Claude - [Source](https://github.com/hmzainjamil/ai_computer_use/blob/main/src/tools/collection.py) |
-| **Entry** | `src/main.py` | App bootstrap - [Source](https://github.com/hmzainjamil/ai_computer_use/blob/main/src/main.py) |
-| **Config** | `src/config.py` | Runtime config + flags - [Source](https://github.com/hmzainjamil/ai_computer_use/blob/main/src/config.py) |
+The configuration module creates a local `temp/` directory for screenshots and related artifacts. Keep credentials out of version control and handle screenshots as potentially sensitive data.
 
-## HOW IT WORKS
+## Running
 
-```
-+---------------------------------------------------------+
-|                       INPUT                             |
-|   macOS 14+ . iOS 17+ (real device & simulator)     |
-+--------------------------+------------------------------+
-                           v
-+---------------------------------------------------------+
-|                  ORIENT / PARSE                         |
-|   - Validate inputs                                     |
-|   - Load skill / agent / tool definitions               |
-|   - Resolve config + secrets from .env                  |
-+--------------------------+------------------------------+
-                           v
-+---------------------------------------------------------+
-|                  PLAN (Claude Sonnet)                   |
-|   - Decompose goal into ordered subtasks                |
-|   - Pick model per task (Sonnet / Haiku / Tier-0)       |
-+--------------------------+------------------------------+
-                           v
-+---------------------------------------------------------+
-|                  EXECUTE (parallel)                     |
-|   - Spawn sub-agents / call tools                       |
-|   - Stream tokens, persist artifacts                    |
-+--------------------------+------------------------------+
-                           v
-+---------------------------------------------------------+
-|                  VERIFY                                 |
-|   - Lint / typecheck / visual diff / QA agent           |
-|   - On failure -> re-prompt with error context          |
-+--------------------------+------------------------------+
-                           v
-+---------------------------------------------------------+
-|                  SHIP                                   |
-|   - Write to disk . commit . PR . upload                |
-+---------------------------------------------------------+
-```
+The project manifest requires Python 3.12 or newer. Inspect [pyproject.toml](pyproject.toml), [src/main.py](src/main.py), and [src/utils/system_check.py](src/utils/system_check.py) for dependency and system requirements before starting the UI. The CLI defines `check` and `ui` commands. macOS accessibility permissions are required for computer interaction; iOS operation also depends on a configured device, Appium, and Xcode as applicable.
 
-## Install
+No install or launch command is asserted here because the repository metadata does not define a console-script entry point or a requirements.txt file. Confirm the current package layout and dependencies before installing.
 
-```bash
-git clone https://github.com/hmzainjamil/ai_computer_use.git
-cd ai_computer_use
+## Safety and privacy
 
-# Per-repo install (try in order):
-bash install.sh 2>/dev/null || \
-npm install 2>/dev/null || \
-bun install 2>/dev/null || \
-pip install -r requirements.txt 2>/dev/null || true
-```
+- Run only on devices and accounts you own or are authorized to control.
+- Use a dedicated test device or account where possible. Avoid interacting with financial, health, identity, or production systems.
+- Keep a human in control. Review proposed actions and observe device state; do not treat a coordinate or text-pattern check as a complete safety policy.
+- Shell, filesystem, and network tools can have effects beyond the visible UI. Inspect the tool implementation and restrict permissions before use.
+- Do not enter passwords, authentication codes, private messages, or sensitive customer data into prompts.
+- Screenshots and logs may contain personal information. Store them securely and remove them when no longer needed.
+- Never commit API keys, device identifiers that expose private devices, or captured data.
 
-Environment:
+## Documentation
 
-```bash
-cp .env.example .env  # if present
-# fill ANTHROPIC_API_KEY at minimum
-```
+See [docs/README.md](docs/README.md) for source map and verification boundaries.
 
-## Usage
+## License
 
-```bash
-# Claude Code skill packs:
-/skill-name "your goal"
-
-# CLI / scripts:
-python scripts/<script>.py --input ./input --output ./output
-
-# TypeScript projects:
-bun run dev    # or npm run dev
-```
-
-### Configuration knobs
-
-| Key | Default | Description |
-|---|---|---|
-| `ANTHROPIC_API_KEY` | - (required) | Claude API key |
-| `MODEL` | `claude-sonnet-4-7` | Default LLM |
-| `MODEL_FALLBACK` | `claude-haiku-4` | Cheaper fallback |
-| `MAX_TOKENS` | `8192` | Per-call ceiling |
-| `TEMPERATURE` | `0.2` | Determinism dial |
-| `LOG_LEVEL` | `info` | debug / info / warn / error |
-| `OUT_DIR` | `./out` | Where artifacts land |
-| `CACHE_DIR` | `.cache` | Prompt cache root |
-| `PARALLELISM` | `4` | Sub-agent concurrency |
-| `RETRY_MAX` | `3` | Per-call retry budget |
-| `TIMEOUT_S` | `120` | Per-call timeout |
-| `DRY_RUN` | `false` | Plan-only, no side effects |
-
-### Case 3 - DTC brand, ad creative testing
-
-- Before: $2K/month UGC creator retainer, 4 ads/month.
-- After: 30+ ad variants/week via Arcads + Claude, A/B-tested.
-- Result: 3x creative velocity, 41% lower CAC after 6 weeks.
-
-## Security
-
-- Never commit API keys. `.env` is in `.gitignore` by default.
-- Use [git-secret](https://git-secret.io/) or 1Password CLI for team secret sharing.
-- Review the QA / safety layer for any tool that writes to disk or runs shells (see `mac_safety.py` style guards).
-- Vulnerability reports: open a private GitHub Security Advisory.
-
-## Limitations
-
-- UI behavior depends on external applications and display environments.
-- Automated interaction can have real side effects and requires guardrails.
-- Performance and success-rate claims require task-specific evaluation.
-
-## Related
-
-- [Claude Code](https://docs.claude.com/en/docs/claude-code) - official docs
-- [Anthropic Console](https://console.anthropic.com) - API keys + billing
-- [Crawlee](https://crawlee.dev) - web scraping framework
-- [hmz-claude-code-best-practice](https://github.com/hmzainjamil/hmz-claude-code-best-practice) - sister repo
-
-## Maintainer
-
-[hmzainjamil](https://github.com/hmzainjamil)
+See [LICENSE](LICENSE) for the repository's license terms.
